@@ -18,6 +18,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="/series" element={<Series />} />
           <Route path="/series/:id" element={<SeriesDetail />} />
+          <Route path="/series/:seasonId/episodes" element={<Episodes />} />
         </Routes>
       </BrowserRouter>
     </>
