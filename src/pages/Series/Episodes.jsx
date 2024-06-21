@@ -45,10 +45,12 @@ export default function Episodes() {
               <li key={episode.episode} className="episode-card">
                 <h3>{episode.title}</h3>
                 <p>{episode.description}</p>
+
                 <audio controls>
                   <source src={episode.file} type="audio/mpeg" />
                   Your browser does not support the audio element.
                 </audio>
+                
               </li>
             ))}
           </ul>

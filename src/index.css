@@ -6,7 +6,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background-color: rgb(163, 105, 240);
+  background-color: #A91D3A;
   font-family: "Inter", sans-serif;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -26,27 +26,33 @@ header {
   height: 110px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding-block: 10px;
 }
 
 header .site-logo {
-  color: red;
-  margin-right: auto;
+  color: #151515;
   text-transform: uppercase;
   font-weight: 900;
-  font-size: 15px;
+  font-size: 30px;
+}
+
+header nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
 header a {
   text-decoration: none;
-  color: red;
+  color: #151515;
   font-weight: 600;
   padding: 5px 20px;
 }
 
 footer {
   background-color: black;
-  color: red;
+  color: white;
   height: 75px;
   display: flex;
   flex-shrink: 0;
@@ -63,16 +69,16 @@ img {
 }
 
 button {
-  display: block;
-  margin: 20px auto;
+  /* display: block; */
+  margin: 20px 10px;
   padding: 10px 20px;
   font-size: 1em;
   color: white;
-  background-color: #007BFF;
+  background-color: #C73659;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  /* transition: background-color 0.3s; */
 }
 
 

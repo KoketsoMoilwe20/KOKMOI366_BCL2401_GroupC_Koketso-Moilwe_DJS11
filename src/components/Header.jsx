@@ -8,10 +8,13 @@ export default function Header() {
                 Tunify!
             </Link>
             <nav>
-                <NavLink to="/series">
-                    Series
+                <NavLink className="nav-series" to="/series">
+                    Shows
                 </NavLink>
-                <NavLink to="/about">
+                <NavLink to="/favourites">
+                    Favourites
+                </NavLink>
+                <NavLink className="nav-about" to="/about">
                     About
                 </NavLink>
             </nav>
