@@ -5,10 +5,11 @@ import About from "./pages/About"
 import PageNotFound from "./pages/PageNotFound"
 import Series from "./pages/Series/Series"
 import SeriesDetail from "./pages/Series/SeriesDetail"
+import Episodes from "./pages/Series/Episodes"
 
 
 export default function App() {
-  const [count, setCount] = useState(0)
+ 
 
   return (
     <>
