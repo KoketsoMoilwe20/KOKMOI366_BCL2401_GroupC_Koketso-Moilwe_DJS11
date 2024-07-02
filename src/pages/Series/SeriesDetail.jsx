@@ -17,7 +17,10 @@ export default function SeriesDetail() {
         return response.json();
       })
       .then((data) => {
-        setSeasons(data.seasons);
+        const sortedSeasons = data.seasons.sort((a, b) =>
+          a.title.localeCompare(b.title)
+        );
+        setSeasons(sortedSeasons);
         setLoading(false);
       })
       .catch((error) => {
@@ -29,6 +32,14 @@ export default function SeriesDetail() {
 
   const showMoreSeasons = () => {
     setVisibleCount((prevCount) => prevCount + 9);
+  };
+  const toggleFavorite = (season) => {
+    const isFavorited = favorites.some((fav) => fav.id === season.id);
+    const updatedFavorites = isFavorited
+      ? favorites.filter((fav) => fav.id !== season.id)
+      : [...favorites, season];
+    setFavorites(updatedFavorites);
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
   };
 
   if (loading) {
@@ -43,7 +54,7 @@ export default function SeriesDetail() {
     <div className="series-detail-container">
       {seasons.length > 0 ? (
         seasons.slice(0, visibleCount).map((season) => (
-          <Link to={`/series/${id}/episodes`} key={season.id} className="season-card-link">
+          <Link to={`/series/${id}/episodes`} key={season.id || `${season.number}-${season.title}`} className="season-card-link">
             <div className="season-card">
               {season.image && <img src={season.image} alt={season.title} className="season-image"  />}
               <h2 className="season-title">{season.title}</h2>
@@ -59,3 +70,4 @@ export default function SeriesDetail() {
     </div>
   );
 }
+

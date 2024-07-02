@@ -5,7 +5,7 @@ export default function Series() {
   const [series, setSeries] = useState([]);
   const [error, setError] = useState(null);
   const [visibleCount, setVisibleCount] = useState(12);
-  const [sortOption, setSortOption] = useState("none"); // State for sorting option
+  const [sortOption, setSortOption] = useState("none");
 
   useEffect(() => {
     fetch("https://podcast-api.netlify.app")
@@ -25,28 +25,27 @@ export default function Series() {
 
   const filterAndSortSeries = (option) => {
     setSortOption(option);
-    const sortedSeries = [...series]; // Create a copy of series
+    const sortedSeries = [...series];
 
     if (option !== "none") {
       switch (option) {
         case "most-recent":
-          sortedSeries.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)); // Sort by latest pubDate
+          sortedSeries.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
           break;
         case "least-recent":
-          sortedSeries.sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate)); // Sort by earliest pubDate
+          sortedSeries.sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate));
           break;
         case "a-z":
-          sortedSeries.sort((a, b) => a.title.localeCompare(b.title)); // Sort by title A-Z
+          sortedSeries.sort((a, b) => a.title.localeCompare(b.title));
           break;
         case "z-a":
-          sortedSeries.sort((a, b) => b.title.localeCompare(a.title)); // Sort by title Z-A
+          sortedSeries.sort((a, b) => b.title.localeCompare(a.title));
           break;
         default:
-          // No change if option is invalid
           break;
       }
     }
-    setSeries(sortedSeries); // Update the displayed series
+    setSeries(sortedSeries);
   };
 
   if (error) {
@@ -57,12 +56,8 @@ export default function Series() {
     <div className="series-container">
       <h1>Series List</h1>
       <div className="filter-buttons">
-        <button onClick={() => filterAndSortSeries("most-recent")}>
-          Most Recent
-        </button>
-        <button onClick={() => filterAndSortSeries("least-recent")}>
-          Least Recent
-        </button>
+        <button onClick={() => filterAndSortSeries("most-recent")}>Most Recent</button>
+        <button onClick={() => filterAndSortSeries("least-recent")}>Least Recent</button>
         <button onClick={() => filterAndSortSeries("a-z")}>A-Z</button>
         <button onClick={() => filterAndSortSeries("z-a")}>Z-A</button>
         <button onClick={() => filterAndSortSeries("none")}>Reset</button>
@@ -74,7 +69,8 @@ export default function Series() {
               <img src={item.image} alt={item.title} />
               <div className="card-content">
                 <h2>{item.title}</h2>
-                <h4>seasons : {item.seasons}</h4>
+                <h4>Seasons: {item.seasons}</h4>
+                <p>Last updated: {new Date(item.updated).toLocaleDateString()}</p>
               </div>
             </Link>
           </div>
@@ -86,4 +82,3 @@ export default function Series() {
     </div>
   );
 }
-
