@@ -29,12 +29,15 @@ export default function Episodes({ favorites, setFavorites }) {
   }, [seasonId]);
 
   const toggleFavorite = (episode) => {
-    const isFavorited = favorites.some((fav) => fav.episode === episode.episode);
+    console.log(episode);
+    const isFavorited = favorites.some(
+      (fav) => fav.episode === episode.episode
+    );
     const updatedFavorites = isFavorited
       ? favorites.filter((fav) => fav.episode !== episode.episode)
       : [...favorites, episode];
     setFavorites(updatedFavorites);
-    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
   };
 
   if (loading) {
@@ -59,7 +62,9 @@ export default function Episodes({ favorites, setFavorites }) {
                 Your browser does not support the audio element.
               </audio>
               <button onClick={() => toggleFavorite(episode)}>
-                {favorites.some((fav) => fav.episode === episode.episode) ? "Unfavorite" : "Favorite"}
+                {favorites.some((fav) => fav.episode === episode.episode)
+                  ? "Unfavorite"
+                  : "Favorite"}
               </button>
             </li>
           ))}

@@ -2,38 +2,42 @@ import React, { useState, useEffect } from "react";
 
 export default function Favourites({ favorites, setFavorites }) {
   const [sortedFavorites, setSortedFavorites] = useState([]);
-  const [sortOption, setSortOption] = useState("none");
+  const [sortOption, setSortOption] = useState("a-z");
 
   useEffect(() => {
-    setSortedFavorites(favorites);
+    // Sort favorites alphabetically by default
+    const sorted = [...favorites].sort((a, b) => a.title.localeCompare(b.title));
+    setSortedFavorites(sorted);
   }, [favorites]);
 
-  const filterAndSortSeries = (option) => {
+  const filterAndSortFavorites = (option) => {
     setSortOption(option);
-    const sortedSeries = [...series];
+    const sorted = [...favorites];
 
     if (option !== "none") {
       switch (option) {
         case "most-recent":
-          sortedSeries.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+          sorted.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
           break;
         case "least-recent":
-          sortedSeries.sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate));
+          sorted.sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate));
           break;
         case "a-z":
-          sortedSeries.sort((a, b) => a.title.localeCompare(b.title));
+          sorted.sort((a, b) => a.title.localeCompare(b.title));
           break;
         case "z-a":
-          sortedSeries.sort((a, b) => b.title.localeCompare(a.title));
+          sorted.sort((a, b) => b.title.localeCompare(a.title));
           break;
         default:
           break;
       }
+    } else {
+      sorted.sort((a, b) => a.title.localeCompare(b.title));
     }
-    setSeries(sortedSeries);
+
+    console.log(`Sorted favorites (${option}):`, sorted); // Debug log
+    setSortedFavorites(sorted);
   };
-
-
 
   const removeAllFavorites = () => {
     if (window.confirm("Are you sure you want to remove all favorites?")) {
@@ -51,7 +55,7 @@ export default function Favourites({ favorites, setFavorites }) {
   };
 
   if (sortedFavorites.length === 0) {
-    return <div className="no-favs">No favorites added yet.</div>;
+    return <div>No favorites added yet.</div>;
   }
 
   return (
