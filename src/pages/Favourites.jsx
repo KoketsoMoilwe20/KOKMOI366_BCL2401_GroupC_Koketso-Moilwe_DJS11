@@ -8,35 +8,32 @@ export default function Favourites({ favorites, setFavorites }) {
     setSortedFavorites(favorites);
   }, [favorites]);
 
-  const filterAndSortFavorites = (option) => {
+  const filterAndSortSeries = (option) => {
     setSortOption(option);
-    const sorted = [...favorites];
+    const sortedSeries = [...series];
 
-    switch (option) {
-      case "most-recent":
-        sorted.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-        break;
-      case "least-recent":
-        sorted.sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate));
-        break;
-      case "a-z":
-        sorted.sort((a, b) => a.title.localeCompare(b.title));
-        break;
-      case "z-a":
-        sorted.sort((a, b) => b.title.localeCompare(a.title));
-        break;
-      default:
-        break;
+    if (option !== "none") {
+      switch (option) {
+        case "most-recent":
+          sortedSeries.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+          break;
+        case "least-recent":
+          sortedSeries.sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate));
+          break;
+        case "a-z":
+          sortedSeries.sort((a, b) => a.title.localeCompare(b.title));
+          break;
+        case "z-a":
+          sortedSeries.sort((a, b) => b.title.localeCompare(a.title));
+          break;
+        default:
+          break;
+      }
     }
-
-    setSortedFavorites(sorted);
+    setSeries(sortedSeries);
   };
 
-  const clearAllFavorites = () => {
-    setFavorites([]);
-    setSortedFavorites([]);
-    localStorage.removeItem("favorites");
-  };
+
 
   const removeAllFavorites = () => {
     if (window.confirm("Are you sure you want to remove all favorites?")) {

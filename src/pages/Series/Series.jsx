@@ -35,10 +35,10 @@ export default function Series() {
     if (option !== "none") {
       switch (option) {
         case "most-recent":
-          sortedSeries.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+          sortedSeries.sort((a, b) => new Date(b.updated) - new Date(a.updated));
           break;
         case "least-recent":
-          sortedSeries.sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate));
+          sortedSeries.sort((a, b) => new Date(a.updated) - new Date(b.updated));
           break;
         case "a-z":
           sortedSeries.sort((a, b) => a.title.localeCompare(b.title));
@@ -49,6 +49,8 @@ export default function Series() {
         default:
           break;
       }
+    } else {
+      sortedSeries.sort((a, b) => a.title.localeCompare(b.title));
     }
     setSeries(sortedSeries);
   };

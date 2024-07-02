@@ -54,7 +54,6 @@ export default function Episodes({ favorites, setFavorites }) {
             <li key={`${seasonId}-${episode.episode}`} className="episode-card">
               <h3>{episode.title}</h3>
               <p>{episode.description}</p>
-              <p>Last updated: {new Date(episode.pubDate).toLocaleDateString()}</p>
               <audio controls>
                 <source src={episode.file} type="audio/mpeg" />
                 Your browser does not support the audio element.

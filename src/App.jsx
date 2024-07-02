@@ -8,6 +8,8 @@ import Series from "./pages/Series/Series";
 import SeriesDetail from "./pages/Series/SeriesDetail";
 import Episodes from "./pages/Series/Episodes";
 import Favourites from "./pages/Favourites";
+import GenreDetail from "./components/GenreDetail";
+
 
 export default function App() {
   const [favorites, setFavorites] = useState(() => {
