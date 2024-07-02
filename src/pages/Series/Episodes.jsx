@@ -1,44 +1,43 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { LoadingContext } from "../../components/LoadingContext";
 
 export default function Episodes({ favorites, setFavorites }) {
   const { seasonId } = useParams();
   const [episodes, setEpisodes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { loading: globalLoading, setLoading: setGlobalLoading } = useContext(LoadingContext);
 
   useEffect(() => {
-    fetch(`https://podcast-api.netlify.app/id/${seasonId}`)
-      .then((response) => {
+    const fetchEpisodes = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`https://podcast-api.netlify.app/id/${seasonId}`);
         if (!response.ok) {
-          throw new Error("Not responding!");
+          throw new Error("Network response was not ok");
         }
-        return response.json();
-      })
-      .then((data) => {
-        const seasons = data.seasons;
-        const allEpisodes = seasons.flatMap((season) => season.episodes);
+        const data = await response.json();
+        const allEpisodes = data.seasons.flatMap((season) => season.episodes);
         setEpisodes(allEpisodes);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching episodes:", error);
+      } catch (error) {
         setError(error);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+    fetchEpisodes();
   }, [seasonId]);
 
   const toggleFavorite = (episode) => {
-    console.log(episode);
-    const isFavorited = favorites.some(
-      (fav) => fav.episode === episode.episode
-    );
+    const isFavorited = favorites.some((fav) => fav.episode === episode.episode);
     const updatedFavorites = isFavorited
       ? favorites.filter((fav) => fav.episode !== episode.episode)
-      : [...favorites, episode];
+      : [...favorites, { ...episode, dateAdded: new Date().toISOString() }];
     setFavorites(updatedFavorites);
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
   };
+  
 
   if (loading) {
     return <div>Loading...</div>;
@@ -54,7 +53,7 @@ export default function Episodes({ favorites, setFavorites }) {
       {episodes.length > 0 ? (
         <ul>
           {episodes.map((episode) => (
-            <li key={`${seasonId}-${episode.episode}`} className="episode-card">
+            <li key={episode.episode} className="episode-card">
               <h3>{episode.title}</h3>
               <p>{episode.description}</p>
               <audio controls>
@@ -62,10 +61,14 @@ export default function Episodes({ favorites, setFavorites }) {
                 Your browser does not support the audio element.
               </audio>
               <button onClick={() => toggleFavorite(episode)}>
-                {favorites.some((fav) => fav.episode === episode.episode)
-                  ? "Unfavorite"
-                  : "Favorite"}
+                {favorites.some((fav) => fav.episode === episode.episode) ? "Unfavorite" : "Favorite"}
               </button>
+              {favorites.some((fav) => fav.episode === episode.episode) && (
+                <p>
+                  Added to favorites on:{" "}
+                  {new Date(favorites.find((fav) => fav.episode === episode.episode).dateAdded).toLocaleString()}
+                </p>
+              )}
             </li>
           ))}
         </ul>

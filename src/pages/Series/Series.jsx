@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { LoadingContext } from "../../components/LoadingContext";
 
 export default function Series() {
   const [series, setSeries] = useState([]);
   const [error, setError] = useState(null);
   const [visibleCount, setVisibleCount] = useState(12);
   const [sortOption, setSortOption] = useState("none");
+  
 
   useEffect(() => {
     const fetchSeries = async () => {

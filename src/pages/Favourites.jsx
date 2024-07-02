@@ -5,8 +5,8 @@ export default function Favourites({ favorites, setFavorites }) {
   const [sortOption, setSortOption] = useState("a-z");
 
   useEffect(() => {
-    // Sort favorites alphabetically by default
-    const sorted = [...favorites].sort((a, b) => a.title.localeCompare(b.title));
+    // Sort favorites initially by date added (most recent first)
+    const sorted = favorites.slice().sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
     setSortedFavorites(sorted);
   }, [favorites]);
 
@@ -14,28 +14,22 @@ export default function Favourites({ favorites, setFavorites }) {
     setSortOption(option);
     const sorted = [...favorites];
 
-    if (option !== "none") {
-      switch (option) {
-        case "most-recent":
-          sorted.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-          break;
-        case "least-recent":
-          sorted.sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate));
-          break;
-        case "a-z":
-          sorted.sort((a, b) => a.title.localeCompare(b.title));
-          break;
-        case "z-a":
-          sorted.sort((a, b) => b.title.localeCompare(a.title));
-          break;
-        default:
-          break;
-      }
-    } else {
-      sorted.sort((a, b) => a.title.localeCompare(b.title));
+    switch (option) {
+      case "most-recent":
+        sorted.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
+        break;
+      case "least-recent":
+        sorted.sort((a, b) => new Date(a.dateAdded) - new Date(b.dateAdded));
+        break;
+      case "a-z":
+        sorted.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case "z-a":
+        sorted.sort((a, b) => b.title.localeCompare(a.title));
+        break;
+      default:
+        break;
     }
-
-    console.log(`Sorted favorites (${option}):`, sorted); // Debug log
     setSortedFavorites(sorted);
   };
 
@@ -72,6 +66,7 @@ export default function Favourites({ favorites, setFavorites }) {
         <div key={favorite.episode} className="favorite-card-link">
           <h2 className="favorite-title">{favorite.title}</h2>
           <p>{favorite.description}</p>
+          <p>Date Added: {new Date(favorite.dateAdded).toLocaleString()}</p>
           <audio controls>
             <source src={favorite.file} type="audio/mpeg" />
             Your browser does not support the audio element.
