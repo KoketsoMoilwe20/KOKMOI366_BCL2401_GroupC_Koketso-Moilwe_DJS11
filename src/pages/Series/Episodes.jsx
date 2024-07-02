@@ -11,7 +11,7 @@ export default function Episodes({ favorites, setFavorites }) {
     fetch(`https://podcast-api.netlify.app/id/${seasonId}`)
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error("Not responding!");
         }
         return response.json();
       })
@@ -51,7 +51,7 @@ export default function Episodes({ favorites, setFavorites }) {
       {episodes.length > 0 ? (
         <ul>
           {episodes.map((episode) => (
-            <li key={episode.episode} className="episode-card">
+            <li key={`${seasonId}-${episode.episode}`} className="episode-card">
               <h3>{episode.title}</h3>
               <p>{episode.description}</p>
               <p>Last updated: {new Date(episode.pubDate).toLocaleDateString()}</p>
