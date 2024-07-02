@@ -54,7 +54,7 @@ export default function Favourites({ favorites, setFavorites }) {
   };
 
   if (sortedFavorites.length === 0) {
-    return <div>No favorites added yet.</div>;
+    return <div className="no-favs">No favorites added yet.</div>;
   }
 
   return (

@@ -206,3 +206,12 @@ button {
   margin-top: 8px;
 }
 
+.season-episodes {
+  text-align: center;
+  font-size: 13px;
+}
+
+.no-favs {
+  text-align: center;
+  font-size: 25px;
+}

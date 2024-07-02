@@ -8,17 +8,22 @@ export default function Series() {
   const [sortOption, setSortOption] = useState("none");
 
   useEffect(() => {
-    fetch("https://podcast-api.netlify.app")
-      .then((response) => {
+    const fetchSeries = async () => {
+      try {
+        const response = await fetch("https://podcast-api.netlify.app");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        return response.json();
-      })
-      .then((data) => setSeries(data))
-      .catch((error) => setError(error));
+        const data = await response.json();
+        // Sort series alphabetically by default
+        const sortedData = data.sort((a, b) => a.title.localeCompare(b.title));
+        setSeries(sortedData);
+      } catch (error) {
+        setError(error);
+      }
+    };
+    fetchSeries();
   }, []);
-
   const showMoreSeries = () => {
     setVisibleCount((prevCount) => prevCount + 9);
   };
@@ -68,9 +73,11 @@ export default function Series() {
             <Link to={`/series/${item.id}`} key={item.id}>
               <img src={item.image} alt={item.title} />
               <div className="card-content">
+
                 <h2>{item.title}</h2>
                 <h4>Seasons: {item.seasons}</h4>
                 <p>Last updated: {new Date(item.updated).toLocaleDateString()}</p>
+
               </div>
             </Link>
           </div>

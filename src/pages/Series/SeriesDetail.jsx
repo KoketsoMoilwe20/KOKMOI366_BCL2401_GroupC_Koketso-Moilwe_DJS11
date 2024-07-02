@@ -55,9 +55,11 @@ export default function SeriesDetail() {
       {seasons.length > 0 ? (
         seasons.slice(0, visibleCount).map((season) => (
           <Link to={`/series/${id}/episodes`} key={season.id || `${season.number}-${season.title}`} className="season-card-link">
+
             <div className="season-card">
               {season.image && <img src={season.image} alt={season.title} className="season-image"  />}
               <h2 className="season-title">{season.title}</h2>
+              <p className="season-episodes">Episodes: {season.episodes.length}</p> {/*Display number of episodes */}
             </div>
           </Link>
         ))
